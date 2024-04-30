@@ -43,8 +43,8 @@ jobs:
           credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
       - name: Build container image
         run: |
-          docker build --platform=linux/amd64 -f Dockerfile -t serverless-py .
-          docker tag serverless-py-amd64 ${{ secrets.CONTAINER_IMAGE_URL }}:latest
+          docker build -f Dockerfile -t inline-docker-tag .
+          docker tag inline-docker-tag ${{ secrets.CONTAINER_IMAGE_URL }}:latest
           gcloud auth configure-docker ${{ secrets.GCLOUD_REGION }}-docker.pkg.dev
           docker push ${{ secrets.CONTAINER_IMAGE_URL }} --all-tags
       - name: Deploy container to Cloud Run
