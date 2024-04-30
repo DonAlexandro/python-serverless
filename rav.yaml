@@ -1,12 +1,14 @@
 scripts:
   runserver: uvicorn src.main:app --reload
-  installs: venv/bin/python -m pip install -r requirements.txt
+  installs: venv/bin/python -m pip install -r ./src/requirements.txt
   test: pytest src/tests.py
   build: docker build -f Dockerfile -t serverless-py .
   empty-build: docker build -f Dockerfile.empty -t empty-py .
   empty-shell: docker exec -it empty_py /bin/bash
   empty-run: docker run -p 8001:8000 --rm --name empty_py -it empty-py
   run: docker run -p 8000:8000 --env-file .env --rm --name serverless-py -it serverless-py
+  update_prod_secrets:
+    - gcloud secrets versions add py_env_file --data-file .env.prod
   build_run:
     - rav run build
     - rav run run
